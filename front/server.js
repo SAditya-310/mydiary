@@ -6,6 +6,7 @@ import { note } from './notemodel.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 const userDB = mongoose.createConnection("mongodb+srv://Aditya4743_db_user:hxn39ZOBfMfQkerJ@diary.xhylrag.mongodb.net/users");
 const notesDB = mongoose.createConnection("mongodb+srv://Aditya4743_db_user:hxn39ZOBfMfQkerJ@diary.xhylrag.mongodb.net/notes");
 const User = userDB.model("second", entry);
@@ -103,4 +104,5 @@ app.post('/deletenote', async (req, res) => {
     res.status(404).json({ message: "Note not found" });
   }
 });
+
 app.listen(5000, () => console.log("✅ Server running on port 5000"));
