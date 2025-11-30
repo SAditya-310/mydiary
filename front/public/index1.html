@@ -613,7 +613,7 @@
             const password = document.getElementById('password_field');
             try {
                 const userId = localStorage.getItem("userid");
-                const res = await fetch("http://localhost:5000/profile", {
+                const res = await fetch("https://mydiary-wk3e.onrender.com/profile", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ userId })
@@ -673,7 +673,7 @@
             const mood = document.getElementById('moodSelector').value;
             if (!title || !content) { alert("Please fill both fields"); return; }
             try {
-                const res = await fetch("http://localhost:5000/note", {
+                const res = await fetch("https://mydiary-wk3e.onrender.com/note", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ title, content, userId, mood })
@@ -707,7 +707,7 @@
         async function loadNotes() {
             const userId = localStorage.getItem("userid");
             try {
-                const res = await fetch("http://localhost:5000/getnotes", {
+                const res = await fetch("https://mydiary-wk3e.onrender.com/getnotes", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ userId })
@@ -766,7 +766,7 @@
                             }).then(async (result) => {
                                 if (result.isConfirmed) {
                                     try {
-                                        const res = await fetch("http://localhost:5000/deletenote", {
+                                        const res = await fetch("https://mydiary-wk3e.onrender.com/deletenote", {
                                             method: "POST",
                                             headers: { "Content-Type": "application/json" },
                                             body: JSON.stringify({ title, userId })
@@ -799,3 +799,4 @@
 </body>
 
 </html>
+
