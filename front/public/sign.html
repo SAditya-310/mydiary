@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        /* Define Palette Variables */
+        :root {
+            --primary-terracotta: #E9644E; /* Main warm, earthy red-orange */
+            --secondary-peach: #D55A44;    /* Darker terracotta for gradient end */
+            --secondary-dark: #5A5A5A;    /* Dark gray for text/accents */
+            --background-mid: #F8F4F0;    /* Very light, warm off-white background */
+            --container-bg: #ffffff;
+            --error-red: #DC3545;
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* --- BODY & CONTAINER --- */
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Background: Warm, light gradient (Consistent with Login) */
+            background: linear-gradient(135deg, var(--background-mid), #F0E8E0);
+        }
+         #toast-container .toast-success {
+            background-color: #1A5DBF !important;
+            /* professional green */
+            color: #ffffff !important;
+            font-weight: 500;
+            /* border-radius: 8px !important;
+            padding: 12px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); */
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            /* smooth animation */
+        }
+        .container {
+            background: var(--container-bg);
+            padding: 40px 30px;
+            border-radius: 20px; /* Consistent border radius */
+            width: 380px;
+            /* Impressive Shadow: Soft and warm lift */
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.1),
+                0 4px 15px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.6s ease-in-out;
+            border: 1px solid #E5E5E5;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 35px;
+            color: var(--secondary-dark);
+            font-size: 30px; /* Consistent title size */
+            font-weight: 700;
+        }
+
+        /* --- INPUTS --- */
+        input {
+            width: 100%;
+            padding: 18px 15px; /* Consistent padding */
+            margin: 10px 0;
+            border: 1px solid #E0E0E0;
+            border-radius: 12px; /* Consistent border radius */
+            font-size: 16px;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus {
+            /* Focus: Primary Terracotta border */
+            border: 1px solid var(--primary-terracotta);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(233, 100, 78, 0.3);
+            background-color: var(--container-bg);
+        }
+
+        /* --- BUTTONS --- */
+        #signupBtn {
+            width: 100%;
+            padding: 18px;
+            /* Accent Button: Warm Terracotta Gradient */
+            background: linear-gradient(135deg, var(--primary-terracotta), var(--secondary-peach));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 30px;
+            /* Strong shadow matching the accent */
+            box-shadow: 0 8px 25px rgba(233, 100, 78, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        #signupBtn:hover {
+            transform: translateY(-3px);
+            /* Darker terracotta on hover */
+            background: linear-gradient(135deg, #D55A44, #C04F3D);
+            box-shadow: 0 12px 30px rgba(233, 100, 78, 0.7);
+        }
+
+        /* --- MESSAGES & LINKS --- */
+        #message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 15px;
+            color: var(--error-red);
+        }
+
+        .link {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .link a {
+            /* Link Color: Dark Gray for contrast */
+            color: var(--secondary-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .link a:hover {
+            /* Link Hover Color: Primary Terracotta Accent */
+            color: var(--primary-terracotta);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create Account ✨</h2>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button id="signupBtn">Signup</button>
+        <div id="message"></div>
+        <div class="link">
+            Already have an account? <a href="log.html">Login</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        document.getElementById("signupBtn").addEventListener("click", async () => {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const message = document.getElementById("message");
+
+            try {
+                const res = await fetch("http://localhost:5000/signup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert("Signup successful! Please login.");
+                    window.location.href = "log.html";
+                } else {
+                    message.innerText =data.message;
+                }
+            } catch (err) {
+                message.innerText = "Error: " + err;
+            }
+        });
+    </script>
+</body>
+</html>
