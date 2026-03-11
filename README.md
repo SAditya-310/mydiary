@@ -1,4 +1,4 @@
-📔 MyDiary – Personal Diary Web Application
+#📔 MyDiary – Personal Diary Web Application
 
 MyDiary is a simple web-based diary application that allows users to securely log in and maintain daily personal entries online. The platform enables users to write, manage, and store their daily thoughts in an organized and private manner.
 
